@@ -1,4 +1,5 @@
 use std::fs::read_to_string;
+use std::io::Error;
 use std::path::Path;
 use std::time::Instant;
 
@@ -7,7 +8,7 @@ pub trait Runner {
     fn name(&self) -> (usize, usize);
 
     // parse
-    fn parse(&mut self, filetype: Loader) -> ();
+    fn parse(&mut self, filetype: Loader) -> Result<(), Error>;
     // part1
     fn part1(&mut self) -> Vec<String>;
 
@@ -36,23 +37,23 @@ pub fn read_to_lines<T: AsRef<Path>>(pathname: T) -> Vec<String> {
         .collect()
 }
 
-pub fn run_solution<T: Runner + ?Sized>(runnable: &mut T, filetype: Loader) -> () {
+pub fn run_solution<T: Runner + ?Sized>(runnable: &mut T, filetype: Loader) -> Result<(), Error> {
     // print header
     let (year, day) = runnable.name();
     println!("----- {}, Day {:02} -----", year, day);
 
     // parse input file
     let start = Instant::now();
-    runnable.parse(filetype);
+    let _ = runnable.parse(filetype)?;
     let duration = start.elapsed().as_micros();
-    println!("{:3}.{:03}ms Parsing...", duration / 1000, duration % 1000);
+    println!("{:03}.{:03}ms Parsing...", duration / 1000, duration % 1000);
     println!("");
 
     // start part 1
     let start = Instant::now();
     let part1sol = runnable.part1();
     let duration = start.elapsed().as_micros();
-    println!("{:3}.{:03}ms Part 1...", duration / 1000, duration % 1000);
+    println!("{:03}.{:03}ms Part 1...", duration / 1000, duration % 1000);
     for line in part1sol {
         println!("\t{}", line);
     }
@@ -62,11 +63,12 @@ pub fn run_solution<T: Runner + ?Sized>(runnable: &mut T, filetype: Loader) -> (
     let start = Instant::now();
     let part1sol = runnable.part2();
     let duration = start.elapsed().as_micros();
-    println!("{:3}.{:03}ms Part 2...", duration / 1000, duration % 1000);
+    println!("{:03}.{:03}ms Part 2...", duration / 1000, duration % 1000);
     for line in part1sol {
         println!("\t{}", line);
     }
     println!("");
+    Ok(())
 }
 
 #[cfg(test)]
