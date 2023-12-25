@@ -1,3 +1,4 @@
+use std::env;
 use std::fs::read_to_string;
 use std::io::Error;
 use std::path::Path;
@@ -29,7 +30,9 @@ pub enum Loader {
 
 pub fn read_to_lines<T: AsRef<Path>>(pathname: T) -> Vec<String> {
     // read specified file at pathname to vector of strings separated by newlines
-    read_to_string(pathname)
+    let cd = env::current_dir().expect("Failed");
+    let relpath = cd.join("../").join(pathname);
+    read_to_string(relpath)
         .expect("Missing File")
         .split("\n")
         .filter(|s| !s.is_empty())

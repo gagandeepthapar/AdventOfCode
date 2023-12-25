@@ -1,7 +1,12 @@
 use aoclib::Runner;
 
-mod day01;
-mod day02;
+mod aoc2023 {
+    pub mod day01;
+    pub mod day02;
+}
+
+// mod day01;
+// mod day02;
 
 fn main() {
     // set selector
@@ -11,8 +16,8 @@ fn main() {
     let input_file_type = aoclib::Loader::Actual;
 
     // instantiate all aoc events
-    let mut day01_solver = day01::EventSolver::new();
-    let mut day02_solver = day02::EventSolver::new();
+    let mut day01_solver = aoc2023::day01::EventSolver::new();
+    let mut day02_solver = aoc2023::day02::EventSolver::new();
 
     // create vector
     let mut aoc_event_vector: Vec<&mut dyn Runner> = vec![&mut day01_solver, &mut day02_solver];

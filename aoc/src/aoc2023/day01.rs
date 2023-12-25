@@ -1,6 +1,6 @@
-use std::io::Error;
-
 use aho_corasick::AhoCorasick;
+use std::env;
+use std::io::Error;
 
 #[derive(Default)]
 pub struct EventSolver {
