@@ -1,3 +1,5 @@
+use std::io::Error;
+
 use aho_corasick::AhoCorasick;
 
 #[derive(Default)]
@@ -16,7 +18,7 @@ impl aoclib::Runner for EventSolver {
         (2023, 01)
     }
 
-    fn parse(&mut self, filetype: aoclib::Loader) -> () {
+    fn parse(&mut self, filetype: aoclib::Loader) -> Result<(), Error> {
         let (year, day) = self.name();
 
         let folder = match filetype {
@@ -27,6 +29,7 @@ impl aoclib::Runner for EventSolver {
         let filename = format!("{}{}_{:02}.txt", folder, year, day);
 
         self.lines = aoclib::read_to_lines(filename);
+        Ok(())
     }
 
     fn part1(&mut self) -> Vec<String> {
