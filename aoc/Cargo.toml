@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 aoclib= {path="../aoclib/"}
-aho-corasick = "1.1.2"
+aho-corasick = "1.1.2" # 2023 01 
